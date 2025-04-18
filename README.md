@@ -3,13 +3,13 @@ Laboratorio 1 de la asignatura de Sistemas operativos y laboratios ingeniería d
 
 ### Compilation Guide.
 
-- Firt: compile file using gcc on linux or wsl terminal.
+- Primero: compile el archivo usando gcc en terminal de Linux en el WSL.
 
 ```
 gcc -o psinfo psinfo.c
 ```
 
-- Once the file is copiled execute the file ./psinfo
+- Una vez el archivo está compilado ejecútalo usando:
 ```
 ./psinfo <PID>
 ```
