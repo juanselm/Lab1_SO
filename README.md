@@ -9,10 +9,22 @@ Laboratorio 1 de la asignatura de Sistemas operativos y laboratios ingeniería d
 - Primero: compile el archivo usando gcc en terminal de Linux en el WSL.
 
 ```
-gcc -o psinfo psinfo.c
+gcc -o psinfo psinfo.c infoPid.c funciones.c
 ```
 
 - Una vez el archivo está compilado ejecútalo usando:
 ```
 ./psinfo <PID>
+```
+
+### Uso de la opción -l
+
+Para listar información de múltiples procesos, use la opción `-l` seguida de los PIDs:
+```
+./psinfo -l <PID1> <PID2> <PID3>
+```
+
+Ejemplo:
+```
+./psinfo -l 10898 1342 2341
 ```

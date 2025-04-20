@@ -8,16 +8,26 @@
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
-        fprintf(stderr, "Uso: %s <PID>\n", argv[0]);
+        fprintf(stderr, "Uso: %s [-l] <PID> [PID...]\n", argv[0]);
         return 1;
-    }else if (argc == 2)
-    {
-        print_pid(argv);
-        return 0;
-    }else if (argc > 2)
-    {
-        fprintf(stderr, "Error: Demasiados argumentos.\n");
-        return 1;
-    }    
+    }
 
+    // Opción -l para lista múltiple
+    if (strcmp(argv[1], "-l") == 0) {
+        if (argc < 3) {
+            fprintf(stderr, "Error: Debe ingresar al menos un PID después de -l.\n");
+            return 1;
+        }
+        // Llamar a print_multiple_pids con los PIDs proporcionados
+        print_multiple_pids(argc - 2, &argv[2]); // Procesar múltiples PIDs
+        return 0;
+    } else if (argc == 2) {
+        // Manejar un solo PID
+        print_pid(&argv[1]); // Cambiado para pasar la dirección
+        return 0;
+    } else {
+        // Mostrar error si hay más de un PID sin usar -l
+        fprintf(stderr, "Error: Demasiados argumentos. Use la opción -l para múltiples PIDs.\n");
+        return 1;
+    }
 }
