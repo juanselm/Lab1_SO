@@ -8,6 +8,7 @@
 void print_pid(char* argv[]) {
     /* Construir ruta al archivo /proc/[pid]/status */
     char path[64];
+    snprintf(path, sizeof(path), "/proc/%s/status", argv);
     snprintf(path, sizeof(path), "/proc/%s/status", argv[0]); // Corregido índice argv[0]
 
     FILE *f = fopen(path, "r");
