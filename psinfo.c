@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }else if (argc == 2)
     {
-        print_pid(argv);
+        print_pid(argv[1]);
         return 0;
     }else if (argc > 2)
     {

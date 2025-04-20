@@ -4,11 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-void print_pid(char* argv[]){
+void print_pid(char* argv){
   
     /* Construir ruta al archivo /proc/[pid]/status */
     char path[64];
-    snprintf(path, sizeof(path), "/proc/%s/status", argv[1]);
+    snprintf(path, sizeof(path), "/proc/%s/status", argv);
 
     FILE *f = fopen(path, "r");
     if (!f) {
