@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "funciones.h"
+#include "funciones.h" // Incluye las definiciones de las funciones de infoPid.c
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
@@ -23,7 +23,12 @@ int main(int argc, char *argv[]) {
         return 0;
     } else if (argc == 2) {
         // Manejar un solo PID
-        print_pid(&argv[1]); // Cambiado para pasar la dirección
+        ProcInfo info;
+        if (get_proc_info(argv[1], &info) == 0) {
+            print_proc_info(&info); // Imprimir información del proceso
+        } else {
+            fprintf(stderr, "Error: No se pudo obtener información para el PID %s.\n", argv[1]);
+        }
         return 0;
     } else {
         // Mostrar error si hay más de un PID sin usar -l

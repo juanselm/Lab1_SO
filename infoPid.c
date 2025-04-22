@@ -5,57 +5,14 @@
 #include <string.h>
 #include <errno.h>
 
-void print_pid(char* argv[]) {
-    /* Construir ruta al archivo /proc/[pid]/status */
-    char path[64];
-    snprintf(path, sizeof(path), "/proc/%s/status", argv[0]); // Corregido índice argv[0]
-
-    FILE *f = fopen(path, "r");
-    if (!f) {
-        perror("Error al abrir /proc/[pid]/status");
-        return;
+/* Función genérica para extraer valores de líneas específicas */
+void extraer_valor(const char* linea, const char* prefijo, const char* formato, void* destino) {
+    if (strncmp(linea, prefijo, strlen(prefijo)) == 0) {
+        sscanf(linea + strlen(prefijo), formato, destino);
     }
-
-    /* Variables para almacenar la información requerida */
-    char line[256];
-    char name[64] = "";
-    char state[64] = "";
-    long vmSize = 0, vmExe = 0, vmData = 0, vmStk = 0;
-    long voluntary = 0, nonvoluntary = 0;
-
-    /* Leer línea a línea y extraer campos específicos */
-    while (fgets(line, sizeof(line), f)) {
-        if (strncmp(line, "Name:", 5) == 0) {
-            sscanf(line + 5, "%63s", name);
-        } else if (strncmp(line, "State:", 6) == 0) {
-            sscanf(line + 6, "%63s", state);
-        } else if (strncmp(line, "VmSize:", 7) == 0) {
-            sscanf(line + 7, "%ld", &vmSize);
-        } else if (strncmp(line, "VmExe:", 6) == 0) {
-            sscanf(line + 6, "%ld", &vmExe);
-        } else if (strncmp(line, "VmData:", 7) == 0) {
-            sscanf(line + 7, "%ld", &vmData);
-        } else if (strncmp(line, "VmStk:", 6) == 0) {
-            sscanf(line + 6, "%ld", &vmStk);
-        } else if (strncmp(line, "voluntary_ctxt_switches:", 24) == 0) {
-            sscanf(line + 24, "%ld", &voluntary);
-        } else if (strncmp(line, "nonvoluntary_ctxt_switches:", 27) == 0) {
-            sscanf(line + 27, "%ld", &nonvoluntary);
-        }
-    }
-    fclose(f);
-
-    /* Mostrar la información en pantalla */
-    printf("Nombre del proceso: %s\n", name);
-    printf("Estado: %s\n", state);
-    printf("Tamaño total de la imagen de memoria: %ld KB\n", vmSize);
-    printf("Tamaño de la memoria TEXT: %ld KB\n", vmExe);
-    printf("Tamaño de la memoria DATA: %ld KB\n", vmData);
-    printf("Tamaño de la memoria STACK: %ld KB\n", vmStk);
-    printf("Número de cambios de contexto (voluntarios - no voluntarios): %ld - %ld\n",
-           voluntary, nonvoluntary);
 }
 
+/* Función para obtener información del proceso */
 int get_proc_info(const char* pid, ProcInfo* info) {
     char path[64];
     snprintf(path, sizeof(path), "/proc/%s/status", pid);
@@ -73,28 +30,20 @@ int get_proc_info(const char* pid, ProcInfo* info) {
     info->voluntary = info->nonvoluntary = 0;
 
     while (fgets(line, sizeof(line), f)) {
-        if (strncmp(line, "Name:", 5) == 0) {
-            sscanf(line + 5, "%63s", info->name);
-        } else if (strncmp(line, "State:", 6) == 0) {
-            sscanf(line + 6, "%63s", info->state);
-        } else if (strncmp(line, "VmSize:", 7) == 0) {
-            sscanf(line + 7, "%ld", &info->vmSize);
-        } else if (strncmp(line, "VmExe:", 6) == 0) {
-            sscanf(line + 6, "%ld", &info->vmExe);
-        } else if (strncmp(line, "VmData:", 7) == 0) {
-            sscanf(line + 7, "%ld", &info->vmData);
-        } else if (strncmp(line, "VmStk:", 6) == 0) {
-            sscanf(line + 6, "%ld", &info->vmStk);
-        } else if (strncmp(line, "voluntary_ctxt_switches:", 24) == 0) {
-            sscanf(line + 24, "%ld", &info->voluntary);
-        } else if (strncmp(line, "nonvoluntary_ctxt_switches:", 27) == 0) {
-            sscanf(line + 27, "%ld", &info->nonvoluntary);
-        }
+        extraer_valor(line, "Name:", "%63s", info->name);
+        extraer_valor(line, "State:", "%63s", info->state);
+        extraer_valor(line, "VmSize:", "%ld", &info->vmSize);
+        extraer_valor(line, "VmExe:", "%ld", &info->vmExe);
+        extraer_valor(line, "VmData:", "%ld", &info->vmData);
+        extraer_valor(line, "VmStk:", "%ld", &info->vmStk);
+        extraer_valor(line, "voluntary_ctxt_switches:", "%ld", &info->voluntary);
+        extraer_valor(line, "nonvoluntary_ctxt_switches:", "%ld", &info->nonvoluntary);
     }
     fclose(f);
     return 0;
 }
 
+/* Función para imprimir información de un proceso */
 void print_proc_info(const ProcInfo* info) {
     printf("Pid: %s\n", info->pid);
     printf("Nombre del proceso: %s\n", info->name);
@@ -108,6 +57,7 @@ void print_proc_info(const ProcInfo* info) {
     printf("\n");
 }
 
+/* Función para imprimir información de múltiples procesos */
 void print_multiple_pids(int num_pids, char* pids[]) {
     printf("-- Información recolectada!!!\n");
     for (int i = 0; i < num_pids; ++i) {

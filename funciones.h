@@ -14,8 +14,6 @@ typedef struct {
     long nonvoluntary;
 } ProcInfo;
 
-void print_pid(char* argv[]);
-
 // Nueva función para leer info de un PID en una estructura
 int get_proc_info(const char* pid, ProcInfo* info);
 
