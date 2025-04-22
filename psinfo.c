@@ -34,8 +34,8 @@ int main(int argc, char *argv[]) {
         }
         return 0;
     } else {
-        // Mostrar error si hay más de un PID sin usar -l
-        fprintf(stderr, "Error: Demasiados argumentos, use la opción -l para múltiples PIDs.\n");
+        // Mostrar error si hay más de un PID sin usar -l o -r
+        fprintf(stderr, "Error: Demasiados argumentos, use las opciones -l o -r para múltiples PIDs.\n");
         return 1;
     }
 }
