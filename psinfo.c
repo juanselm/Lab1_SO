@@ -10,10 +10,7 @@ int main(int argc, char *argv[]) {
     if (argc < 2) {
         fprintf(stderr, "Uso: %s [-l] <PID> [PID...]\n", argv[0]);
         return 1;
-    }
-
-    // Opción -l para lista múltiple
-    if (strcmp(argv[1], "-l") == 0) {
+    }else if (strcmp(argv[1], "-l") == 0) {
         if (argc < 3) {
             fprintf(stderr, "Error: Debe ingresar al menos un PID después de -l. \nEjemplo: ./psinfo -l 2093\n");
             return 1;
