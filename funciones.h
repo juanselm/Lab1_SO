@@ -23,4 +23,6 @@ void print_proc_info(const ProcInfo* info);
 // Nueva función para manejar la opción -l
 void print_multiple_pids(int count, char* pids[]);
 
+void generar_reporte_archivo(int count, char *pids[]);
+
 #endif

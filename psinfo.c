@@ -8,7 +8,7 @@
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
-        fprintf(stderr, "Uso: %s [-l] <PID> [PID...]\n", argv[0]);
+        fprintf(stderr, "Usos:\n %s [-l] <PID> <PID> ...\n %s [-r] <PID> <PID> ...\n %s <PID> <PID> ...\n", argv[0], argv[0], argv[0]);
         return 1;
     }else if (strcmp(argv[1], "-l") == 0) {
         if (argc < 3) {
@@ -16,6 +16,13 @@ int main(int argc, char *argv[]) {
             return 1;
         }
         print_multiple_pids(argc - 2, &argv[2]); // Procesar múltiples PIDs
+        return 0;
+    }else if (strcmp(argv[1], "-r") == 0) {
+        if (argc < 3) {
+            fprintf(stderr, "Uso: %s -r <PID1> <PID2> ...\n", argv[0]);
+            return 1;
+        }
+        generar_reporte_archivo(argc - 2, &argv[2]); // Genera el archivo del reporte
         return 0;
     } else if (argc == 2) {
         // Manejar un solo PID
