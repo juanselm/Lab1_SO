@@ -15,10 +15,9 @@ int main(int argc, char *argv[]) {
     // Opción -l para lista múltiple
     if (strcmp(argv[1], "-l") == 0) {
         if (argc < 3) {
-            fprintf(stderr, "Error: Debe ingresar al menos un PID después de -l.\n");
+            fprintf(stderr, "Error: Debe ingresar al menos un PID después de -l. \nEjemplo: ./psinfo -l 2093\n");
             return 1;
         }
-        // Llamar a print_multiple_pids con los PIDs proporcionados
         print_multiple_pids(argc - 2, &argv[2]); // Procesar múltiples PIDs
         return 0;
     } else if (argc == 2) {
@@ -32,7 +31,7 @@ int main(int argc, char *argv[]) {
         return 0;
     } else {
         // Mostrar error si hay más de un PID sin usar -l
-        fprintf(stderr, "Error: Demasiados argumentos. Use la opción -l para múltiples PIDs.\n");
+        fprintf(stderr, "Error: Demasiados argumentos, use la opción -l para múltiples PIDs.\n");
         return 1;
     }
 }
