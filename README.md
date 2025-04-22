@@ -9,7 +9,7 @@ Laboratorio 1 de la asignatura de Sistemas operativos y laboratios ingeniería d
 - Primero: compile el archivo usando gcc en terminal de Linux en el WSL.
 
 ```
-gcc -o psinfo psinfo.c
+gcc -I. -Wall infoFile.c infoPid.c psinfo.c -o psinfo
 ```
 
 - Una vez el archivo está compilado ejecútalo usando:
