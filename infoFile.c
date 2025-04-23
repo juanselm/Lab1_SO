@@ -2,9 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <unistd.h> // Para access()
 #include "funciones.h"
 
 void generar_reporte_archivo(int count, char *pids[]) {
+    for (int i = 0; i < count; ++i) {
+        if (!es_pid_valido(pids[i])) {
+            printf("Error: El PID %s es inválido o no existe.\n", pids[i]);
+            return; // Salir si algún PID es inválido
+        }
+    }
+
     // Calcular el tamaño necesario para el nombre del archivo
     size_t len_total = strlen("psinfo-report") + 1;
     for (int i = 0; i < count; ++i) {

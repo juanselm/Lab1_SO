@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <ctype.h>
 
 /* Función genérica para extraer valores de líneas específicas */
 void extraer_valor(const char* linea, const char* prefijo, const char* formato, void* destino) {
@@ -60,7 +61,16 @@ void print_proc_info(const ProcInfo* info) {
 /* Función para imprimir información de múltiples procesos */
 void print_multiple_pids(int num_pids, char* pids[]) {
     printf("-- Información recolectada!!!\n");
+    int has_valid_pid = 0;
+
     for (int i = 0; i < num_pids; ++i) {
+        if (!es_pid_valido(pids[i])) {
+            printf("Pid: %s\n", pids[i]);
+            printf("Error: El PID no es válido o no existe.\n\n");
+            continue;
+        }
+
+        has_valid_pid = 1; // Indicar que al menos un PID es válido
         ProcInfo info;
         if (get_proc_info(pids[i], &info) == 0) {
             print_proc_info(&info);
@@ -68,5 +78,9 @@ void print_multiple_pids(int num_pids, char* pids[]) {
             printf("Pid: %s\n", pids[i]);
             printf("Error: No se pudo leer información del proceso.\n\n");
         }
+    }
+
+    if (!has_valid_pid) {
+        printf("No se encontró información válida para los PIDs proporcionados.\n");
     }
 }
