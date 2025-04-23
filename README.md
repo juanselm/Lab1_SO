@@ -25,24 +25,31 @@ make
 
 ### Uso de la opción -l
 
-Para listar información de múltiples procesos, use la opción `-l` seguida de los PIDs:
+- Para listar información de múltiples procesos, use la opción `-l` seguida de los PIDs:
 ```
 ./psinfo -l <PID1> <PID2> <PID3>
 ```
 
-Ejemplo:
+* Ejemplo:
 ```
 ./psinfo -l 10898 1342 2341
 ```
 
 ### Uso de la opción -r
 
-Para listar información de múltiples procesos y guardarlos en un archivo, use la opción `-r` seguida de los PIDs:
+- Para listar información de múltiples procesos y guardarlos en un archivo, use la opción `-r` seguida de los PIDs:
 ```
 ./psinfo -r <PID1> <PID2> <PID3>
 ```
 
-Ejemplo:
+* Ejemplo:
 ```
 ./psinfo -r 10898 1342 2341
+```
+
+### Comandos adicionales.
+
+- Para eliminar el ejecutable ./psinfo
+```
+make clean
 ```

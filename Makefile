@@ -8,6 +8,3 @@ $(TARGET):
 
 clean:
 	rm -f $(TARGET)
-
-run: all
-	./$(TARGET)
