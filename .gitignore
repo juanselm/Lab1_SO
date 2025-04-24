@@ -56,3 +56,5 @@ dkms.conf
 a.out
 psinfo
 *.info
+
+*.vscode
